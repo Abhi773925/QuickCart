@@ -1,0 +1,16 @@
+<div class="bg-white min-h-screen p-6">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold text-slate-900 mb-8">Categories</h1>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+      @for(cat of categories; track cat.categoryId) {
+        <div (click)="handleClick(cat.categoryId)" class="border border-slate-200 rounded p-4 text-center hover:shadow-md transition-shadow cursor-pointer">
+          <div class="w-16 h-16 mx-auto mb-3 rounded-full overflow-hidden bg-slate-50">
+            <img [src]="cat.imageUrl" class="w-full h-full object-cover">
+          </div>
+          <h3 class="font-semibold text-sm text-slate-900 hover:text-slate-600 transition-colors">{{ cat.categoryName }}</h3>
+        </div>
+      }
+    </div>
+  </div>
+</div>

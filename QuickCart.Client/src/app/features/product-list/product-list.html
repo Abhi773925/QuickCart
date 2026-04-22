@@ -1,0 +1,44 @@
+<div class="min-h-screen bg-white p-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-row justify-end items-center mb-8">
+        <select class="px-4 py-2 border border-slate-200 rounded-lg bg-white text-slate-900 text-sm font-medium hover:border-slate-300 transition-colors cursor-pointer" (change)="handleFilteration($event)">
+          <option value="">All Categories</option>
+          <option  *ngFor="let item of categories" [value]="item.categoryId">
+            {{item.categoryName}}
+          </option>
+        </select>
+    </div>
+    <div *ngIf="isLoading()" class="flex justify-center py-20">
+      <div class="w-8 h-8 border-2 border-slate-200 border-t-slate-900 rounded-full animate-spin"></div>
+    </div>
+
+    <div *ngIf="!isLoading() && products() && products().length > 0"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div *ngFor="let product of products()"
+        class="border border-slate-200 rounded overflow-hidden hover:shadow-md transition-shadow">
+        <div class="aspect-square bg-slate-50 overflow-hidden">
+          <img [src]="product.imageUrl" [alt]="product.productName"
+            class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+        </div>
+        <div class="p-4">
+          <h3 class="font-semibold text-slate-900 mb-1 line-clamp-2">{{ product.productName }}</h3>
+          <p class="text-slate-600 text-sm mb-3 line-clamp-2">{{ product.productDescription }}</p>
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-lg font-bold text-slate-900">₹{{ product.productPrice }}</span>
+            <span class="text-xs text-slate-500">{{ product.stockQuantity }} left</span>
+          </div>
+          <button (click)="viewDetails(product.productId)"
+            class="w-full py-2 bg-slate-900 text-white text-sm font-medium hover:bg-slate-800 transition-colors cursor-pointer rounded">
+            View
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading() && (!products() || products().length === 0)"
+      class="flex flex-col items-center justify-center py-20 text-center">
+      <h3 class="text-xl font-bold text-slate-800 mb-2">No Products Found</h3>
+      <p class="text-slate-600">{{ errorMessage() || "No products available." }}</p>
+    </div>
+  </div>
+</div>

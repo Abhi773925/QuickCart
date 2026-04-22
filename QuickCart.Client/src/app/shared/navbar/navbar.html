@@ -1,0 +1,52 @@
+<nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 h-14 flex justify-between items-center">
+    <a routerLink="/" class="text-lg font-semibold text-slate-900 cursor-pointer">QuickCart</a>
+    
+    <div class="hidden md:flex gap-6 items-center text-sm">
+      <a routerLink="/products" class="text-slate-600 hover:text-slate-900 transition cursor-pointer">Products</a>
+      <a routerLink="/categories" class="text-slate-600 hover:text-slate-900 transition cursor-pointer">Categories</a>
+      <a routerLink="/cart" class="text-slate-600 hover:text-slate-900 transition cursor-pointer">Cart</a>
+      
+      @if(isLoggedIn()) {
+        <div class="relative">
+          <div (click)="isProfileOpen.set(!isProfileOpen())" 
+               class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-200 text-slate-700 text-xs font-bold cursor-pointer hover:bg-slate-300">
+            {{ email().charAt(0) }}
+          </div>
+          <div *ngIf="isProfileOpen()" class="absolute right-0 mt-2 w-32 bg-white border border-slate-200 rounded shadow-md z-50 text-xs">
+            <button *ngIf="isAdmin()" routerLink="add-product" class="cursor-pointer block w-full text-left px-3 py-2 hover:bg-slate-50" (click)="isProfileOpen.set(false)">Add Product</button>
+            <button *ngIf="isAdmin()" routerLink="manage-products" class="cursor-pointer block w-full text-left px-3 py-2 hover:bg-slate-50" (click)="isProfileOpen.set(false)">Manage Products</button>
+            <button  routerLink="my-orders" class="block cursor-pointer w-full text-left px-3 py-2 hover:bg-slate-50" (click)="isProfileOpen.set(false)">My Orders</button>
+            <button (click)="handleLogout(); isProfileOpen.set(false)" class="block w-full text-left px-3 py-2 text-red-600 hover:bg-slate-50 cursor-pointer">Logout</button>
+          </div>
+        </div>
+      } @else {
+        <a routerLink="/login" class="text-slate-600 hover:text-slate-900 transition cursor-pointer">Login</a>
+      }
+    </div>
+
+    <div class="md:hidden">
+      <button (click)="isMenuOpen.set(!isMenuOpen())" class="text-slate-600 hover:text-slate-900">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path *ngIf="!isMenuOpen()" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <path *ngIf="isMenuOpen()" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l18 18" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="isMenuOpen()" class="md:hidden bg-white border-t border-slate-200 text-sm">
+    <div class="px-4 py-2 space-y-1">
+      <a routerLink="/products" class="block py-2 text-slate-600 hover:text-slate-900 cursor-pointer">Products</a>
+      <a routerLink="/categories" class="block py-2 text-slate-600 hover:text-slate-900 cursor-pointer">Categories</a>
+      <a routerLink="/my-orders" class="block py-2 text-slate-600 hover:text-slate-900 cursor-pointer">My Orders</a>
+
+      <a routerLink="/cart" class="block py-2 text-slate-600 hover:text-slate-900 cursor-pointer">Cart</a>
+      @if(isLoggedIn()) {
+        <button (click)="handleLogout(); isMenuOpen.set(false)" class="block w-full text-left py-2 text-red-600 hover:text-red-700 cursor-pointer">Logout</button>
+      } @else {
+        <a routerLink="/login" class="block py-2 text-slate-600 hover:text-slate-900 cursor-pointer">Login</a>
+      }
+    </div>
+  </div>
+</nav>

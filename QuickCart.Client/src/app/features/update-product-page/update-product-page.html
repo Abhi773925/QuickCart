@@ -1,0 +1,78 @@
+<div class="min-h-screen bg-white p-6">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-row justify-end items-center mb-8">
+        <select class="px-4 py-2 border border-slate-200 rounded-lg bg-white text-slate-900 text-sm font-medium hover:border-slate-300 transition-colors cursor-pointer" (change)="handleFilteration($event)">
+          <option value="">All Categories</option>
+          <option  *ngFor="let item of categories" [value]="item.categoryId">
+            {{item.categoryName}}
+          </option>
+        </select>
+    </div>
+    <div *ngIf="isLoading()" class="flex justify-center py-20">
+      <div class="w-8 h-8 border-2 border-slate-200 border-t-slate-900 rounded-full animate-spin"></div>
+    </div>
+
+    <div *ngIf="!isLoading() && products() && products().length > 0" class="border border-slate-200 rounded-lg overflow-y-auto scroll-auto bg-white">
+      <div class="overflow-x-auto overflow-y-auto max-h-[70vh]">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-50 border-b border-slate-200">
+            <tr>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700">Image</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700">Product</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700">Category</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700">Price</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700">Stock</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700">Action</th>
+              <th class="px-4 py-3 text-left font-semibold text-slate-700">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products(); let i = index" class="border-b border-slate-100 hover:bg-slate-50/60">
+              <td class="px-4 py-3">
+                <img
+                  [src]="product.imageUrl"
+                  [alt]="product.productName"
+                  class="w-12 h-12 rounded object-cover border border-slate-200"
+                />
+              </td>
+              <td class="px-4 py-3">
+                <p class="font-medium text-slate-900 line-clamp-1">{{ product.productName }}</p>
+                <p class="text-xs text-slate-500 line-clamp-1">{{ product.productDescription }}</p>
+              </td>
+              <td class="px-4 py-3 text-slate-700">{{ product.categoryId }}</td>
+              <td class="px-4 py-3 font-semibold text-slate-900">₹{{ product.productPrice }}</td>
+              <td class="px-4 py-3">
+                <span class="text-xs font-medium px-2 py-1 rounded"
+                  [ngClass]="product.stockQuantity > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'">
+                  {{ product.stockQuantity }}
+                </span>
+              </td>
+              <td class="px-4 py-3">
+                <button
+                  (click)="viewDetails(product.productId)"
+                  class="px-3 py-1.5 bg-slate-900 text-white text-xs font-medium hover:bg-slate-800 transition-colors cursor-pointer "
+                >
+                  Manage
+                </button>
+              </td>
+              <td class="px-4 py-3">
+                <button
+                  (click)="deleteProduct(product.productId)"
+                  class="px-3 py-1.5 bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition-colors cursor-pointer "
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div *ngIf="!isLoading() && (!products() || products().length === 0)"
+      class="flex flex-col items-center justify-center py-20 text-center">
+      <h3 class="text-xl font-bold text-slate-800 mb-2">No Products Found</h3>
+      <p class="text-slate-600">{{ errorMessage() || "No products available." }}</p>
+    </div>
+  </div>
+</div>
