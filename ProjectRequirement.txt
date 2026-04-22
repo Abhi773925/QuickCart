@@ -1,0 +1,90 @@
+Bilkul, ye raha aapke **QuickCart E-Commerce Project** ka complete **Requirement Document (PRD)**. Is document ko aap apne pas save kar lijiye, ye aapke development ka roadmap hoga aur interview mein "Project Documentation" ke taur par dikhane ke kaam aayega.
+
+---
+
+# 1. Project Overview
+* **Project Name:** QuickCart
+* **Objective:** Ek full-stack e-commerce application banana jisme users products kharid sakein aur admin inventory manage kar sake.
+* **Timeline:** 7 Days
+* **Tech Stack:** * **Backend:** ASP.NET Core 8.0 Web API, EF Core, SQL Server, Identity Framework (JWT).
+    * **Frontend:** Angular 17/18, Tailwind CSS, RxJS.
+
+---
+
+# 2. Functional Requirements
+
+### A. User Module (Customer)
+1.  **Authentication:** Login aur Signup (Name, Email, Password).
+2.  **Product Discovery:**
+    * Sare products ki list dekhna.
+    * Category ke according filter karna (Electronics, Fashion, etc.).
+    * Search bar se product dhundna.
+3.  **Shopping Cart:**
+    * Items add/remove karna.
+    * Quantity update karna.
+    * Cart ka data `localStorage` mein persist hona chahiye.
+4.  **Checkout & Order:**
+    * Shipping address enter karna.
+    * **Real Order Placement:** Database mein order save hona aur stock kam hona.
+    * Order History: Apne purane orders dekhna.
+
+### B. Admin Module (Management)
+1.  **Product CRUD:** Naye products add karna (Name, Description, Price, Stock, Category, Image URL).
+2.  **Inventory Management:** Stock update karna.
+    * *Constraint:* Agar stock 0 hai, toh user "Add to Cart" nahi kar payega.
+3.  **Order Overview:** Ye dekhna ki kis user ne kya order kiya hai.
+
+---
+
+# 3. Technical Requirements (Architecture)
+
+### Backend (Web API)
+* **Repository Pattern:** Data access logic ko controllers se alag rakhne ke liye.
+* **DTOs (Data Transfer Objects):** API aur Mobile/Web ke beech data share karne ke liye (AutoMapper use karein).
+* **JWT Security:** `[Authorize]` attribute ka use roles (Admin/Customer) ke liye.
+* **Global Exception Middleware:** System crash hone par user ko "Friendly Error Message" dikhane ke liye.
+* **Transactions:** Order place karte waqt `BeginTransaction` use karna taaki data consistency bani rahe.
+
+### Frontend (Angular)
+* **Standalone Components:** Modern Angular approach.
+* **HTTP Interceptor:** Token ko har header mein attach karne ke liye.
+* **Route Guards:** `AuthGuard` (Login ke bina checkout nahi) aur `AdminGuard` (Normal user admin panel nahi dekh sakta).
+* **State Management:** Cart functionality ke liye `BehaviorSubject`.
+
+---
+
+# 4. Database Schema (Entities)
+
+| Table | Columns |
+| :--- | :--- |
+| **Users** | Id, UserName, Email, PasswordHash, Role |
+| **Categories** | Id, Name |
+| **Products** | Id, Name, Description, Price, StockQuantity, CategoryId, ImageUrl |
+| **Orders** | Id, UserId, OrderDate, TotalAmount, ShippingAddress, Status |
+| **OrderItems** | Id, OrderId, ProductId, Quantity, UnitPrice |
+
+---
+
+# 5. API Endpoints (Quick Reference)
+
+* `POST /api/auth/register` - User signup.
+* `POST /api/auth/login` - Token generate karna.
+* `GET //prapioducts` - List products (with filters).
+* `POST /api/products` - Add product (Admin only).
+* `POST /api/orders` - Place order (Subtracts stock).
+* `GET /api/orders/my-orders` - User specific history.
+
+--- 
+
+# 6. Success Metrics for Interview
+Interview mein aap ye 3 points proud hokar bol payenge:
+1.  **Data Integrity:** Maine transaction handle kiya hai, order fail hone par stock wapas revert ho jata hai.
+2.  **Security:** User passwords encrypted hain aur routes JWT se protected hain.
+3.  **Performance:** Angular mein Lazy Loading aur API mein Pagination/Filtering use ki hai.
+
+---
+
+### **Now, Let's Execute!**
+Aapka sabse pehla kaam hai **Database Setup aur Entities create karna**. 
+
+**Kya main aapko `ApplicationDbContext` aur `Entities` ka complete code generate karke doon taaki aap aaj hi API ka base ready kar lein?**

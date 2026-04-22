@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Documentations/">
+    <File Path="ProjectRequirement.txt" />
+  </Folder>
+  <Project Path="QuickCart.Api/QuickCart.Api.csproj" />
+  <Project Path="QuickCart.Client/QuickCart.Client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="QuickCart.Domain/QuickCart.Domain.csproj" />
+</Solution>
