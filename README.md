@@ -72,7 +72,3 @@ npm start
 - `POST /api/products` (Admin)
 - `POST /api/orders`
 - `GET /api/orders/my-orders`
-
-## Project Goal
-
-This project is designed as a practical full-stack learning and interview-ready implementation, focusing on security, maintainable architecture, and real-world e-commerce flows.
